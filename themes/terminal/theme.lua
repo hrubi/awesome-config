@@ -5,7 +5,7 @@ local awful = require("awful")
 
 theme = {}
 
-theme.font          = "terminus 8"
+theme.font          = "terminus 9"
 
 -- 05120B - dark
 -- 022C00 - medium
@@ -42,10 +42,8 @@ theme.tooltip_bg_color = theme.bg_normal
 theme.tooltip_fg_color = theme.fg_normal
 
 -- Display the taglist squares
--- theme.taglist_squares_sel   = "/usr/share/awesome/themes/default/taglist/squarefw.png"
-theme.taglist_squares_sel   = awful.util.getdir("config") .. "/themes/terminal/taglist/squarefw.png"
--- theme.taglist_squares_unsel = "/usr/share/awesome/themes/default/taglist/squarew.png"
-theme.taglist_squares_unsel   = awful.util.getdir("config") .. "/themes/terminal/taglist/squarew.png"
+theme.taglist_squares_sel   = "/usr/share/awesome/themes/default/taglist/squarefw.png"
+theme.taglist_squares_unsel = "/usr/share/awesome/themes/default/taglist/squarew.png"
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
