@@ -249,10 +249,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "m", function () mymainmenu:show() end),
 
     -- Layout manipulation
-    awful.key({ modkey,           }, "Return", function () awful.client.swap.byidx(  1)    end),
-    awful.key({ modkey, "Shift"   }, "Return", function () awful.client.swap.byidx( -1)    end),
-    awful.key({ modkey,           }, ".", function () awful.screen.focus_relative( 1) end),
-    awful.key({ modkey,           }, ",", function () awful.screen.focus_relative(-1) end),
+    awful.key({ altkey,           }, "Return", function () awful.client.swap.byidx(  1)    end),
+    awful.key({ altkey, "Shift"   }, "Return", function () awful.client.swap.byidx( -1)    end),
+    awful.key({ altkey,           }, ".", function () awful.screen.focus_relative( 1) end),
+    awful.key({ altkey,           }, ",", function () awful.screen.focus_relative(-1) end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
 
     -- Standard program
