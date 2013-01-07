@@ -46,13 +46,20 @@ end
 -- Themes define colours, icons, and wallpapers
 beautiful.init(awful.util.getdir("config") .. "/themes/current/theme.lua")
 
--- This is used later as the default terminal and editor to run.
-terminal = "urxvtc"
-browser  = "firefox"
-moc      = terminal .. " -name MOC -e mocp"
-ncmpc    = terminal .. " -name NCMPC -e ncmpc"
-lock     = "xlock"
-editor = os.getenv("EDITOR") or "vim"
+-- Source local configuration and supply defaults
+success, localconfig = pcall(function()
+        return dofile(awful.util.getdir("config") .. "/rc_local.lua")
+    end)
+if not success or not localconfig then
+    localconfig = {}
+end
+
+terminal   = localconfig.terminal  or "urxvtc"
+browser    = localconfig.browser   or "firefox"
+moc        = localconfig.moc       or terminal .. " -name MOC -e mocp"
+ncmpc      = localconfig.ncmpc     or terminal .. " -name NCMPC -e ncmpc"
+lock       = localconfig.lock      or "xlock"
+editor     = os.getenv("EDITOR")   or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
