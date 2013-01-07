@@ -1,2 +1,5 @@
 # VIM swap files
 .*.swp
+
+# ignore the symlink
+themes/current
