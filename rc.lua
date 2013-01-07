@@ -252,7 +252,7 @@ globalkeys = awful.util.table.join(
     awful.key({ altkey, "Control" }, "d",      function () awful.util.spawn(browser) end),
     awful.key({ altkey, "Control" }, "m",      function () awful.util.spawn(moc) end),
     awful.key({ altkey, "Control" }, "n",      function () awful.util.spawn(ncmpc) end),
-    awful.key({ altkey, "Control" }, "l",      function () awful.util.spawn(lock) end),
+    awful.key({ modkey,           }, "l",      function () awful.util.spawn(lock) end),
 
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
