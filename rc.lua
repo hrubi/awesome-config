@@ -292,7 +292,7 @@ globalkeys = awful.util.table.join(
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey,           }, "Escape", function (c) c:kill()                         end),
+    awful.key({ altkey,           }, "Escape", function (c) c:kill()                         end),
     awful.key({ modkey,           }, "f",      awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, ",",      awful.client.movetoscreen                        ),
