@@ -3,3 +3,4 @@
 
 # ignore the symlink
 themes/current
+rc_local.lua
