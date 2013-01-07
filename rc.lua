@@ -62,11 +62,9 @@ lock       = localconfig.lock      or "xlock"
 editor     = os.getenv("EDITOR")   or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
+laptop     = localconfig.laptop    or false
+
+-- Modifier keys
 modkey = "Mod4"
 altkey = "Mod1"
 
@@ -121,25 +119,28 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
 
--- Battery widget(s)
-vicious.cache(vicious.widgets.bat)
+-- Laptop specific widgets
+if localconfig.laptop then
+    -- Battery widget(s)
+    vicious.cache(vicious.widgets.bat)
 
-battery_percent = awful.widget.progressbar()
-battery_percent:set_width(8)
-battery_percent:set_height(10)
-battery_percent:set_vertical(true)
-battery_percent:set_background_color(beautiful.bg_normal)
-battery_percent:set_border_color(beautiful.fg_normal)
-battery_percent:set_color(beautiful.bg_urgent)
-vicious.register(battery_percent, vicious.widgets.bat, "$2", 60, "BAT0")
+    battery_percent = awful.widget.progressbar()
+    battery_percent:set_width(8)
+    battery_percent:set_height(10)
+    battery_percent:set_vertical(true)
+    battery_percent:set_background_color(beautiful.bg_normal)
+    battery_percent:set_border_color(beautiful.fg_normal)
+    battery_percent:set_color(beautiful.bg_urgent)
+    vicious.register(battery_percent, vicious.widgets.bat, "$2", 60, "BAT0")
 
-battery_state = wibox.widget.textbox()
-vicious.register(battery_state, vicious.widgets.bat, "$1", 60, "BAT0")
+    battery_state = wibox.widget.textbox()
+    vicious.register(battery_state, vicious.widgets.bat, "$1", 60, "BAT0")
 
-battery_time_t = awful.tooltip({
-    objects = { battery_state, battery_percent }
-})
-vicious.register(battery_time_t.widget, vicious.widgets.bat, "$3", 60, "BAT0")
+    battery_time_t = awful.tooltip({
+        objects = { battery_state, battery_percent }
+    })
+    vicious.register(battery_time_t.widget, vicious.widgets.bat, "$3", 60, "BAT0")
+end
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -219,8 +220,10 @@ for s = 1, screen.count() do
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(mytextclock)
-    right_layout:add(battery_state)
-    right_layout:add(battery_percent)
+    if localconfig.laptop then
+        right_layout:add(battery_state)
+        right_layout:add(battery_percent)
+    end
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
