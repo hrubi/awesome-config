@@ -126,15 +126,14 @@ mytextclock = awful.widget.textclock()
 if localconfig.laptop then
     -- Battery widget(s)
     vicious.cache(vicious.widgets.bat)
-
     -- percentage progressbar
-    battery_percent = awful.widget.progressbar()
-    battery_percent:set_width(8)
-    battery_percent:set_height(10)
-    battery_percent:set_vertical(true)
-    battery_percent:set_background_color(beautiful.bg_normal)
-    battery_percent:set_border_color(beautiful.fg_normal)
-    vicious.register(battery_percent, vicious.widgets.bat,
+    battery_graph = awful.widget.progressbar()
+    battery_graph:set_width(8)
+    battery_graph:set_height(10)
+    battery_graph:set_vertical(true)
+    battery_graph:set_background_color(beautiful.bg_normal)
+    battery_graph:set_border_color(beautiful.fg_normal)
+    vicious.register(battery_graph, vicious.widgets.bat,
         function(widget, args)
             local percent = args[2]
             if percent > 50 then
@@ -147,14 +146,15 @@ if localconfig.laptop then
             return percent
         end,
         60, "BAT0")
-
+    -- percentage text
+    battery_percent = wibox.widget.textbox()
+    vicious.register(battery_percent, vicious.widgets.bat, "$2%", 60, "BAT0")
     -- status symbol (charging, full, ..)
     battery_state = wibox.widget.textbox()
     vicious.register(battery_state, vicious.widgets.bat, "$1", 60, "BAT0")
-
     -- tooltip with remaining time
     battery_time_t = awful.tooltip({
-        objects = { battery_state, battery_percent }
+        objects = { battery_state, battery_graph, battery_percent }
     })
     vicious.register(battery_time_t.widget, vicious.widgets.bat,
         function(widget, args)
@@ -290,6 +290,7 @@ for s = 1, screen.count() do
     if localconfig.laptop then
         right_layout:add(wifi_link)
         right_layout:add(battery_state)
+        right_layout:add(battery_graph)
         right_layout:add(battery_percent)
     end
     right_layout:add(mylayoutbox[s])
