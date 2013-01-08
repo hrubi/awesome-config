@@ -156,7 +156,30 @@ if localconfig.laptop then
     battery_time_t = awful.tooltip({
         objects = { battery_state, battery_percent }
     })
-    vicious.register(battery_time_t.widget, vicious.widgets.bat, "$3", 60, "BAT0")
+    vicious.register(battery_time_t.widget, vicious.widgets.bat,
+        function(widget, args)
+            local state_name
+            local state = args[1]
+            local percent = args[2] .. "%"
+            local time = ""
+            if state == "↯" then
+                state_name = "Full"
+            elseif state == "⌁" then
+                state_name = "Unknown"
+            elseif state == "-" then
+                state_name = "Discharging"
+                time = args[3]
+            elseif state == "+" then
+                state_name = "Charging"
+                time = args[3]
+            end
+            if time then
+                return state_name .. " " .. percent .. "\n" .. "Remaining " .. time
+            else
+                return state_name .. " " .. percent
+            end
+        end,
+    60, "BAT0")
 
     -- WiFi widget(s)
     vicious.cache(vicious.widgets.wifi)
