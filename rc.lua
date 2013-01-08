@@ -134,8 +134,19 @@ if localconfig.laptop then
     battery_percent:set_vertical(true)
     battery_percent:set_background_color(beautiful.bg_normal)
     battery_percent:set_border_color(beautiful.fg_normal)
-    battery_percent:set_color(beautiful.bg_urgent)
-    vicious.register(battery_percent, vicious.widgets.bat, "$2", 60, "BAT0")
+    vicious.register(battery_percent, vicious.widgets.bat,
+        function(widget, args)
+            local percent = args[2]
+            if percent > 50 then
+                widget:set_color("#4FF00")
+            elseif percent > 20 then
+                widget:set_color("#FFBB00")
+            else
+                widget:set_color("#FF1200")
+            end
+            return percent
+        end,
+        60, "BAT0")
 
     -- status symbol (charging, full, ..)
     battery_state = wibox.widget.textbox()
