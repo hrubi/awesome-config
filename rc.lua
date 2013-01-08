@@ -254,12 +254,9 @@ for s = 1, screen.count() do
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(mytextclock)
     if localconfig.laptop then
-        right_layout:add(separator)
         right_layout:add(wifi_link)
-        right_layout:add(separator)
         right_layout:add(battery_state)
         right_layout:add(battery_percent)
-        right_layout:add(separator)
     end
     right_layout:add(mylayoutbox[s])
 
