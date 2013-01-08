@@ -116,6 +116,9 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- {{{ Wibox
+-- Field separator
+separator = wibox.widget.textbox(" ")
+
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
 
@@ -124,6 +127,7 @@ if localconfig.laptop then
     -- Battery widget(s)
     vicious.cache(vicious.widgets.bat)
 
+    -- percentage progressbar
     battery_percent = awful.widget.progressbar()
     battery_percent:set_width(8)
     battery_percent:set_height(10)
@@ -133,13 +137,42 @@ if localconfig.laptop then
     battery_percent:set_color(beautiful.bg_urgent)
     vicious.register(battery_percent, vicious.widgets.bat, "$2", 60, "BAT0")
 
+    -- status symbol (charging, full, ..)
     battery_state = wibox.widget.textbox()
     vicious.register(battery_state, vicious.widgets.bat, "$1", 60, "BAT0")
 
+    -- tooltip with remaining time
     battery_time_t = awful.tooltip({
         objects = { battery_state, battery_percent }
     })
     vicious.register(battery_time_t.widget, vicious.widgets.bat, "$3", 60, "BAT0")
+
+    -- WiFi widget(s)
+    vicious.cache(vicious.widgets.wifi)
+
+    wifi_link = wibox.widget.textbox()
+    vicious.register(wifi_link, vicious.widgets.wifi,
+        function(widget, args)
+            if args["{ssid}"] == "N/A" then
+                return ""
+            else
+                return args["{ssid}"] .. ":" .. args["{linp}"] .. "% "
+            end
+        end,
+        10, "wifi0")
+
+    -- tooltip with complete wifi info
+    wifi_info = awful.tooltip({
+        objects = { wifi_link }
+    })
+    vicious.register(wifi_info.widget, vicious.widgets.wifi,
+        function(widget, args)
+            return "SSID:         " .. args["{ssid}"] .. "\n" ..
+                   "Bit Rate:     " .. args["{rate}"] .. "\n" ..
+                   "Signal level: " .. args["{sign}"] .. "\n" ..
+                   "Mode:         " .. args["{mode}"]
+        end,
+        10, "wifi0")
 end
 
 -- Create a wibox for each screen and add it
@@ -221,8 +254,12 @@ for s = 1, screen.count() do
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(mytextclock)
     if localconfig.laptop then
+        right_layout:add(separator)
+        right_layout:add(wifi_link)
+        right_layout:add(separator)
         right_layout:add(battery_state)
         right_layout:add(battery_percent)
+        right_layout:add(separator)
     end
     right_layout:add(mylayoutbox[s])
 
