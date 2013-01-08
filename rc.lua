@@ -73,6 +73,7 @@ local layouts =
 {
     awful.layout.suit.max,
     awful.layout.suit.tile,
+    awful.layout.suit.fair,
     awful.layout.suit.floating,
 }
 -- }}}
@@ -349,6 +350,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "m",     function () awful.layout.set(awful.layout.suit.max)            end),
     awful.key({ modkey, "Control" }, "t",     function () awful.layout.set(awful.layout.suit.tile)           end),
     awful.key({ modkey, "Control" }, "f",     function () awful.layout.set(awful.layout.suit.floating)       end),
+    awful.key({ modkey, "Control" }, "g",     function () awful.layout.set(awful.layout.suit.fair)           end),
     -- Hide/show wibox
     awful.key({ modkey, "Control" }, "b",
                 function ()
