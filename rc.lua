@@ -78,10 +78,37 @@ local layouts =
 }
 -- }}}
 
+-- {{{ Helper function for listing directory
+function scandir(directory)
+    local i, t, popen = 0, {}, io.popen
+    for filename in popen('ls "'..directory..'"/*'):lines() do
+        i = i + 1
+        t[i] = filename
+    end
+    return t
+end
+-- }}}
+
 -- {{{ Wallpaper
 if beautiful.wallpaper then
     for s = 1, screen.count() do
-        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+        if os.execute("test -d " .. beautiful.wallpaper) then
+            -- Cycle through wallpapers
+            local update_interval = beautiful.wallpaper_update or 600
+            local timer = timer({ timeout =  update_interval })
+            files = scandir(beautiful.wallpaper)
+            update_wp = function()
+                local file = files[math.random(#files)]
+                gears.wallpaper.maximized(file, s, true)
+            end
+            timer:connect_signal("timeout", update_wp)
+            timer:emit_signal("timeout")
+            timer:start()
+        else
+            -- Set single wallpaper
+            gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+        end
+
     end
 end
 -- }}}
