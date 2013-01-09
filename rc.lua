@@ -149,10 +149,11 @@ separator = wibox.widget.textbox(" ")
 
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
+volume_control = localconfig.volume_control or "Master"
 mytextclock:buttons(awful.util.table.join(
     -- volume binding on wheel
-    awful.button({ }, 4, function () awful.util.spawn("amixer -q set Speaker '5%+'") end),
-    awful.button({ }, 5, function () awful.util.spawn("amixer -q set Speaker '5%-'") end),
+    awful.button({ }, 4, function () awful.util.spawn("amixer -q set " .. volume_control .. " '5%+'") end),
+    awful.button({ }, 5, function () awful.util.spawn("amixer -q set " .. volume_control .. " '5%-'") end),
 
     -- player binding
     awful.button({ }, 3, function () awful.util.spawn("mocp -G") end),
